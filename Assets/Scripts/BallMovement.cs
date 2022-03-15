@@ -104,6 +104,15 @@ public class BallMovement : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnDestroy()
+    {
+        if(gameObject != null)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+        }
+    }
+
     private void Inflate()
     {
         if(CanInflate)
