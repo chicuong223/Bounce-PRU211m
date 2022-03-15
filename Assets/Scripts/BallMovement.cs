@@ -12,19 +12,27 @@ public class BallMovement : MonoBehaviour
     Rigidbody2D rb;
     bool CanInflate = false;
     bool CanJump = true;
-    float gravityScale = 10;
-    float fallingGravityScale = 40;
     float buttonTime = 0.3f;
     float jumpTime;
     bool jumping;
     bool jumpCancelled;
     float cancelRate = 100;
 
+    [SerializeField]
+    AudioClip jumpClip;
+    [SerializeField]
+    AudioClip inflateClip;
+    [SerializeField]
+    AudioClip deadClip;
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         CanInflate = true;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.enabled = true;
     }
 
     // Update is called once per frame
@@ -87,16 +95,19 @@ public class BallMovement : MonoBehaviour
         }
         if(collision.gameObject.tag.Equals("Pumper"))
         {
+            audioSource.clip = inflateClip;
             Inflate();
         }
         if(collision.gameObject.tag.Equals("Platform"))
         {
+            audioSource.clip = jumpClip;
             CanJump = true;
         }
         else
         {
             CanJump = false;
         }
+        audioSource.Play();
     }
 
     private void Kill()
@@ -108,6 +119,8 @@ public class BallMovement : MonoBehaviour
     {
         if(gameObject != null)
         {
+            audioSource.clip = deadClip;
+            audioSource.Play();
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }
