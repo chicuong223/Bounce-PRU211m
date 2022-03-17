@@ -10,7 +10,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     float jumpForce = 10f;
     Rigidbody2D rb;
-    bool CanInflate = false;
+    bool CanInflate = true;
     bool CanJump = true;
     float buttonTime = 0.3f;
     float jumpTime;
@@ -103,6 +103,10 @@ public class BallMovement : MonoBehaviour
             audioSource.clip = inflateClip;
             Inflate();
         }
+        if(collision.gameObject.tag.Equals("Deflate"))
+        {
+            Deflate();
+        }
         if (collision.gameObject.tag.Equals("Platform"))
         {
             audioSource.clip = jumpClip;
@@ -134,7 +138,19 @@ public class BallMovement : MonoBehaviour
             CanInflate = false;
             jumpForce *= 2;
         }
+    }
 
+    private void Deflate()
+    {
+        if(!CanInflate)
+        {
+            var scale = transform.localScale;
+            scale.x /= 2;
+            scale.y /= 2;
+            transform.localScale = scale;
+            CanInflate = true;
+            jumpForce /= 2;
+        }
     }
 
 }

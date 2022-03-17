@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 20
+  jumpForce: 10
   jumpClip: {fileID: 8300000, guid: 2dee8ae79266273478262dfd5767c3be, type: 3}
   inflateClip: {fileID: 8300000, guid: 4dad0fb09a0fc40469049bfeb2a4ce5c, type: 3}
   deadClip: {fileID: 8300000, guid: d4eb061497f378d43b5c7037fd465ef5, type: 3}
