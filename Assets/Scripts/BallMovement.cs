@@ -45,6 +45,11 @@ public class BallMovement : MonoBehaviour
     {
         var h = Input.GetAxisRaw("Horizontal");
         var pos = transform.position;
+        if (h < 0)
+        {
+            transform.Rotate(Vector3.forward * 300 * Time.deltaTime);
+        }
+        else if (h > 0) transform.Rotate(Vector3.back * 300 * Time.deltaTime);
         pos.x += h * speed * Time.deltaTime;
         transform.position = pos;
     }
@@ -60,9 +65,9 @@ public class BallMovement : MonoBehaviour
 
     private void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(CanJump)
+            if (CanJump)
             {
                 float jumpAmount
                     = Mathf.Sqrt(jumpForce * -2 * (Physics2D.gravity.y * rb.gravityScale));
@@ -73,14 +78,14 @@ public class BallMovement : MonoBehaviour
                 CanJump = false;
             }
         }
-        if(jumping)
+        if (jumping)
         {
             jumpTime += Time.deltaTime;
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 jumpCancelled = true;
             }
-            if(jumpTime > buttonTime)
+            if (jumpTime > buttonTime)
             {
                 jumping = false;
             }
@@ -89,16 +94,16 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag.Equals("Killer"))
+        if (collision.gameObject.tag.Equals("Killer"))
         {
             Kill();
         }
-        if(collision.gameObject.tag.Equals("Pumper"))
+        if (collision.gameObject.tag.Equals("Pumper"))
         {
             audioSource.clip = inflateClip;
             Inflate();
         }
-        if(collision.gameObject.tag.Equals("Platform"))
+        if (collision.gameObject.tag.Equals("Platform"))
         {
             audioSource.clip = jumpClip;
             CanJump = true;
@@ -113,22 +118,14 @@ public class BallMovement : MonoBehaviour
     private void Kill()
     {
         Destroy(gameObject);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
 
-    private void OnDestroy()
-    {
-        if(gameObject != null)
-        {
-            audioSource.clip = deadClip;
-            audioSource.Play();
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
-        }
-    }
 
     private void Inflate()
     {
-        if(CanInflate)
+        if (CanInflate)
         {
             var scale = transform.localScale;
             scale.x *= 2;
