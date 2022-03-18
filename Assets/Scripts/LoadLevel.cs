@@ -12,4 +12,14 @@ public class LoadLevel : MonoBehaviour
     {
         SceneManager.LoadScene(SceneName);
     }
+
+    public void LoadFirstScene()
+    {
+        SceneManager.LoadScene("Level1");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

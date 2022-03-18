@@ -10,13 +10,15 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     float jumpForce = 10f;
     Rigidbody2D rb;
-    bool CanInflate = false;
+    bool CanInflate = true;
     bool CanJump = true;
     float buttonTime = 0.3f;
     float jumpTime;
     bool jumping;
     bool jumpCancelled;
     float cancelRate = 100;
+    public static BallMovement Instance = null;
+    public static int Lives = 3;
 
     [SerializeField]
     AudioClip jumpClip;
@@ -25,6 +27,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     AudioClip deadClip;
     AudioSource audioSource;
+    float deathHeight = -20f;
 
     // Start is called before the first frame update
     void Start()
@@ -35,10 +38,16 @@ public class BallMovement : MonoBehaviour
         audioSource.enabled = true;
     }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Update is called once per frame
     void Update()
     {
         Jump();
+        DeadFall();
     }
 
     void Move()
@@ -61,6 +70,18 @@ public class BallMovement : MonoBehaviour
         {
             rb.AddForce(Vector2.down * cancelRate);
         }
+        
+    }
+
+    bool CheckSideCollision(Collision2D collision)
+    {
+        Collider2D collider = collision.collider;
+        Vector3 contactPoint = collision.contacts[0].point;
+        Vector3 center = collider.bounds.center;
+
+        bool top = contactPoint.y >= center.y;
+        Debug.Log(top);
+        return top;
     }
 
     private void Jump()
@@ -98,15 +119,23 @@ public class BallMovement : MonoBehaviour
         {
             Kill();
         }
-        if (collision.gameObject.tag.Equals("Pumper"))
+        else if (collision.gameObject.tag.Equals("Pumper"))
         {
             audioSource.clip = inflateClip;
             Inflate();
         }
-        if (collision.gameObject.tag.Equals("Platform"))
+        else if(collision.gameObject.tag.Equals("Deflate"))
         {
-            audioSource.clip = jumpClip;
-            CanJump = true;
+            Deflate();
+        }
+        else if (collision.gameObject.tag.Equals("Platform"))
+        {
+            var isTop = CheckSideCollision(collision);
+            if(isTop)
+            {
+                audioSource.clip = jumpClip;
+                CanJump = true;
+            }
         }
         else
         {
@@ -117,9 +146,19 @@ public class BallMovement : MonoBehaviour
 
     private void Kill()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        Lives -= 1;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+    }
+
+    void DeadFall()
+    {
+        var pos = transform.position;
+        if(pos.y <= deathHeight)
+        {
+            Kill();
+        }
     }
 
 
@@ -134,7 +173,19 @@ public class BallMovement : MonoBehaviour
             CanInflate = false;
             jumpForce *= 2;
         }
+    }
 
+    private void Deflate()
+    {
+        if(!CanInflate)
+        {
+            var scale = transform.localScale;
+            scale.x /= 2;
+            scale.y /= 2;
+            transform.localScale = scale;
+            CanInflate = true;
+            jumpForce /= 2;
+        }
     }
 
 }

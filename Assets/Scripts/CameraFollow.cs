@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
 
             //set the camera's position x to the player's position x
             tmp.x = playerTransform.position.x;
+            tmp.y = playerTransform.position.y;
 
             //set back the position of the camera to the tmp variable
             transform.position = tmp;
