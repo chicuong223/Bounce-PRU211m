@@ -54,11 +54,12 @@ public class BallMovement : MonoBehaviour
     {
         var h = Input.GetAxisRaw("Horizontal");
         var pos = transform.position;
-        if (h < 0)
-        {
-            transform.Rotate(Vector3.forward * 300 * Time.deltaTime);
-        }
-        else if (h > 0) transform.Rotate(Vector3.back * 300 * Time.deltaTime);
+        //if (h < 0)
+        //{
+        //    transform.Rotate(Vector3.forward * 300 * Time.deltaTime);
+        //}
+        //else if (h > 0) transform.Rotate(Vector3.back * 300 * Time.deltaTime);
+        transform.Rotate(Vector3.forward * (-h) * 300 * Time.deltaTime);
         pos.x += h * speed * Time.deltaTime;
         transform.position = pos;
     }
