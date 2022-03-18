@@ -27,7 +27,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     AudioClip deadClip;
     AudioSource audioSource;
-    float deathHeight = -20f;
+    float deathHeight = -40f;
 
     // Start is called before the first frame update
     void Start()
