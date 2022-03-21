@@ -48,6 +48,10 @@ public class BallMovement : MonoBehaviour
     {
         Jump();
         DeadFall();
+        if (Lives <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     void Move()

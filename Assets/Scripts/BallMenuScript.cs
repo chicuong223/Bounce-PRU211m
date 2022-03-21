@@ -10,11 +10,11 @@ public class BallMenuScript : MonoBehaviour
     float buttonTime = 0.3f;
     float jumpTime;
     bool jumping;
-    bool jumpCancelled;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        jumping = false;
     }
     // Update is called once per frame
     void Update()
@@ -31,16 +31,11 @@ public class BallMenuScript : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpAmount), ForceMode2D.Impulse);
             jumping = true;
             jumpTime = 0;
-            jumpCancelled = false;
             CanJump = false;
         }
         if (jumping)
         {
             jumpTime += Time.deltaTime;
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                jumpCancelled = true;
-            }
             if (jumpTime > buttonTime)
             {
                 jumping = false;
@@ -54,6 +49,7 @@ public class BallMenuScript : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform"))
         {
             CanJump = true;
+            Jump();
         }
         else
         {
