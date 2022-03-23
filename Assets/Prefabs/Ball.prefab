@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3285565979093296375}
   - component: {fileID: 3285565979093296374}
   - component: {fileID: 3285565979093296328}
-  - component: {fileID: 3285565979093296372}
   - component: {fileID: 3677880042217068026}
   - component: {fileID: -8366106199171645738}
   - component: {fileID: -3198229428285714704}
+  - component: {fileID: 6834944430876679626}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Player
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 5d6a997df4c544f4d92e97ff5fbd0fb5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,30 +103,13 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 2
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &3285565979093296372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3285565979093296331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50e5f091f0af544bbfd590a4877eef3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 10
-  jumpClip: {fileID: 8300000, guid: 2dee8ae79266273478262dfd5767c3be, type: 3}
-  inflateClip: {fileID: 8300000, guid: 4dad0fb09a0fc40469049bfeb2a4ce5c, type: 3}
-  deadClip: {fileID: 8300000, guid: d4eb061497f378d43b5c7037fd465ef5, type: 3}
 --- !u!114 &3677880042217068026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,4 +234,25 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.5599997
+  m_Radius: 2.5
+--- !u!114 &6834944430876679626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3285565979093296331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50e5f091f0af544bbfd590a4877eef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  jumpForce: 10
+  ballPosition: {x: 0, y: 0}
+  isCheckpoint: 0
+  score: 0
+  jumpClip: {fileID: 8300000, guid: 2dee8ae79266273478262dfd5767c3be, type: 3}
+  inflateClip: {fileID: 8300000, guid: 4dad0fb09a0fc40469049bfeb2a4ce5c, type: 3}
+  deadClip: {fileID: 8300000, guid: d4eb061497f378d43b5c7037fd465ef5, type: 3}
+  audioSource: {fileID: 0}

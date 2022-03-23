@@ -18,7 +18,10 @@ public class BallMovement : MonoBehaviour
     bool jumpCancelled;
     float cancelRate = 100;
     public static BallMovement Instance = null;
-    public static int Lives = 3;
+    public static int Lives = 50;
+    public Vector2 ballPosition;
+    public bool isCheckpoint = false;
+    public int score = 0;
 
     [SerializeField]
     AudioClip jumpClip;
@@ -26,7 +29,7 @@ public class BallMovement : MonoBehaviour
     AudioClip inflateClip;
     [SerializeField]
     AudioClip deadClip;
-    AudioSource audioSource;
+    public AudioSource audioSource;
     float deathHeight = -40f;
 
     // Start is called before the first frame update
@@ -36,11 +39,23 @@ public class BallMovement : MonoBehaviour
         CanInflate = true;
         audioSource = GetComponent<AudioSource>();
         audioSource.enabled = true;
+        ballPosition = transform.position;
     }
 
     private void Awake()
     {
         Instance = this;
+        score = 0;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Checkpoint"))
+        {
+            var checkpoint = collision.gameObject.transform.position;
+            ballPosition = checkpoint;
+            isCheckpoint = true;
+        }
     }
 
     // Update is called once per frame
@@ -85,7 +100,6 @@ public class BallMovement : MonoBehaviour
         Vector3 center = collider.bounds.center;
 
         bool top = contactPoint.y >= center.y;
-        Debug.Log(top);
         return top;
     }
 
@@ -131,6 +145,7 @@ public class BallMovement : MonoBehaviour
         }
         else if(collision.gameObject.tag.Equals("Deflate"))
         {
+            audioSource.clip = inflateClip;
             Deflate();
         }
         else if (collision.gameObject.tag.Equals("Platform"))
@@ -153,8 +168,24 @@ public class BallMovement : MonoBehaviour
     {
         //Destroy(gameObject);
         Lives -= 1;
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        if(!CanInflate)
+        {
+            Deflate();
+        }
+        transform.position = ballPosition;
+        //if(isCheckpoint)
+        //{
+        //    if(!CanInflate)
+        //    {
+        //        Deflate();
+        //    }
+        //    transform.position = ballPosition;
+        //}
+        //else
+        //{
+        //    Scene currentScene = SceneManager.GetActiveScene();
+        //    SceneManager.LoadScene(currentScene.name);
+        //}
     }
 
     void DeadFall()

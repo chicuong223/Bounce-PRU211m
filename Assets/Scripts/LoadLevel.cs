@@ -9,12 +9,23 @@ public class LoadLevel : MonoBehaviour
     string SceneName;
 
     public static List<float> times = new List<float>();
+    BallMovement ball;
+    public static List<int> scores = new List<int>();
     float time;
+
+    private void Start()
+    {
+        ball = BallMovement.Instance;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        SceneManager.LoadScene(SceneName);
-        times.Add(time);
+        if(collision.gameObject.tag.Equals("Finish"))
+        {
+            SceneManager.LoadScene(SceneName);
+            times.Add(time);
+            scores.Add(ball.score);
+        }
     }
 
     private void Update()
@@ -25,13 +36,13 @@ public class LoadLevel : MonoBehaviour
     public void Load()
     {
         SceneManager.LoadScene(SceneName);
-        BallMovement.Lives = 3;
+        BallMovement.Lives = 50;
     }
 
     public void LoadFirstScene()
     {
         SceneManager.LoadScene("Level1");
-        BallMovement.Lives = 3;
+        BallMovement.Lives = 50;
     }
 
     public void Quit()

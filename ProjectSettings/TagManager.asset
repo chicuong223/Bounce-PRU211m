@@ -8,6 +8,8 @@ TagManager:
   - Pumper
   - Platform
   - Deflate
+  - Checkpoint
+  - Coin
   layers:
   - Default
   - TransparentFX
