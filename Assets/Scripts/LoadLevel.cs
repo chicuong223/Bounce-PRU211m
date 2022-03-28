@@ -36,13 +36,13 @@ public class LoadLevel : MonoBehaviour
     public void Load()
     {
         SceneManager.LoadScene(SceneName);
-        BallMovement.Lives = 50;
+        BallMovement.Lives = 30;
     }
 
     public void LoadFirstScene()
     {
         SceneManager.LoadScene("Level1");
-        BallMovement.Lives = 50;
+        BallMovement.Lives = 30;
     }
 
     public void Quit()

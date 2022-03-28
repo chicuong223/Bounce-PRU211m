@@ -18,7 +18,7 @@ public class BallMovement : MonoBehaviour
     bool jumpCancelled;
     float cancelRate = 100;
     public static BallMovement Instance = null;
-    public static int Lives = 50;
+    public static int Lives = 30;
     public Vector2 ballPosition;
     public bool isCheckpoint = false;
     public int score = 0;
